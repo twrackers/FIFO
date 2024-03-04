@@ -1,10 +1,15 @@
-#include <Streaming.h>
+// This sketch performs a running mean of a series of random integer values
+// by storing the last `NUMVALS` values in a FIFO of 16-bit unsigned integers,
+// and keeping a running sum of those values in global variable `accum`.  Each 
+// time a nnew random value is generated, the oldest value in the FIFO is popped
+// off the front of the FIFO and subtracted from the running sum.  Then the new
+// is added to the running sum and pushed onto the back of the FIFO.  The running
+// mean is the accululated value divided by the capcity of the FIFO.
 
 #include <FIFO_Type.h>
 
-#define NUMVALS 50
-
 typedef uint16_t data_t;
+#define NUMVALS 50
 
 FIFO_Type<data_t> wfifo(NUMVALS);
 
@@ -17,17 +22,25 @@ void setup() {
   
 }
 
+// Running sum of FIFO contents
 data_t accum = 0;
 
 void loop() {
 
+  // If FIFO is full, pop value from front and subtract it from
+  // running sum.
   if (wfifo.isFull()) {
     accum -= wfifo.pop();
   }
+  // Generate a new value.
   data_t newval = (data_t) random(1000);
+  // Add new value to running sum, and push it onto back of FIFO.
   accum += newval;
   wfifo.push(newval);
-  Serial << newval << " " << (accum / NUMVALS) << endl;
+  // Print new value and the running mean of the stored values.
+  Serial.print(newval);
+  Serial.print(' ');
+  Serial.println(accum / NUMVALS);
 
   delay(20);
   
