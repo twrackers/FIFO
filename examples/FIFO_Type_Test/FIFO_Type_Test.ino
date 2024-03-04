@@ -4,7 +4,7 @@
 
 #define NUMVALS 50
 
-typedef uint16_t data_t;
+typedef uint32_t data_t;
 
 FIFO_Type<data_t> wfifo(NUMVALS);
 
