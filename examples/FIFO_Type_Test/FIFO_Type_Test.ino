@@ -1,10 +1,10 @@
 // This sketch performs a running mean of a series of random integer values
 // by storing the last `NUMVALS` values in a FIFO of 16-bit unsigned integers,
 // and keeping a running sum of those values in global variable `accum`.  Each 
-// time a nnew random value is generated, the oldest value in the FIFO is popped
+// time a new random value is generated, the oldest value in the FIFO is popped
 // off the front of the FIFO and subtracted from the running sum.  Then the new
-// is added to the running sum and pushed onto the back of the FIFO.  The running
-// mean is the accululated value divided by the capcity of the FIFO.
+// is pushed onto the back of the FIFO and added to the running sum.  The running
+// mean is the running sum divided by the capacity of the FIFO.
 
 #include <FIFO_Type.h>
 
